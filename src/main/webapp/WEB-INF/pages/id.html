@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Get Id</title>
+    <style>
+        table th, table td {
+            padding: 5px;
+            text-align-last: right;
+        }
+    </style>
+</head>
+<body>
+
+<a th:href="@{/people}">Show All Users</a>
+
+<br/>
+<br/>
+
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
+        <th>E-mail</th>
+    </tr>
+
+    <th:block th:each="user, state : ${user}"
+              class="row" th:classappend="${state.odd} ? 'odd-row' : 'even-row'">
+        <tr>
+            <!--<td th:text="${state.count}">No</td>-->
+            <td th:text="${user.getId()}">VALUE</td>
+            <td th:text="${user.getFirstName()}">VALUE</td>
+            <td th:text="${user.getLastName()}">VALUE</td>
+            <td th:text="${user.getAge()}">VALUE</td>
+            <td th:text="${user.getEmail()}">VALUE</td>
+        </tr>
+
+    </th:block>
+
+</table>
+
+<!--<a th:href="@{/people/{id}/edit(id=${user.getId()})}">Edit</a>-->
+<br/>
+
+<div style="display: inline-flex">
+<form th:action="@{/people/{id}/edit(id=${user.getId()})}">
+    <button type="submit">Edit User</button>
+</form>
+
+    <br/>
+
+<form th:method="DELETE"
+      th:action="@{/people/{id}(id=${user.getId()})}">
+    <input type="submit" value="Delete User"/>
+</form>
+</div>
+
+</body>
+</html>
