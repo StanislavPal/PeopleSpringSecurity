@@ -6,7 +6,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import web.model.User;
 import web.service.UserService;
-import web.service.UserServiceImpl;
 
 @Controller
 @RequestMapping (value = "/people")
