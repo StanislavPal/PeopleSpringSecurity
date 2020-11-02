@@ -3,16 +3,15 @@ package web.dao;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
 
 public abstract class AbstractDao<PK extends Serializable, T> {
 
-    private final Class<T> persistentClass;
+   /* private final Class<T> persistentClass;
 
     @SuppressWarnings("unchecked")
     public AbstractDao(){
         this.persistentClass =(Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-    }
+    }*/
 
     @PersistenceContext
     EntityManager entityManager;
@@ -21,7 +20,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
         return this.entityManager;
     }
 
-    protected T getByKey(PK key) {
+    /*protected T getByKey(PK key) {
         return (T) entityManager.find(persistentClass, key);
     }
 
@@ -35,6 +34,6 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 
     protected void delete(T entity) {
         entityManager.remove(entity);
-    }
+    }*/
 
 }

@@ -1,26 +1,41 @@
 package web.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
+import web.model.Role;
 import web.model.User;
 
 import javax.persistence.NoResultException;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDAO {
+
+    private final RoleDao roleDao;
+    private final PasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    public UserDaoImpl(RoleDao roleDao, PasswordEncoder bCryptPasswordEncoder) {
+        this.roleDao = roleDao;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
 
     @Override
     @SuppressWarnings("unchecked")
     public List<User> allUsers() {
-        List<User> users = getEntityManager()
+        return (List<User>) getEntityManager()
         .createQuery("select u from User u").getResultList();
-
-        return users;
     }
 
     @Override
     public void addUser(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        Set<Role> roles = new HashSet<>();
+        roles.add(new Role(1, "ROLE_USER"));
+        //roles.add(roleDao.getRole(1));
+        user.setRoles(roles);
         entityManager.persist(user);
     }
 
@@ -50,4 +65,18 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDAO {
         }
 
     }
+
+    @Override
+    public User findByUsername(String login) {
+        try {
+            return (User) entityManager
+                    .createQuery("select u from User u where lower(u.login) like :username")
+                    //.createQuery("select u from User u where lower(u.login)=:login")
+                    .setParameter("username", "%" + login.toLowerCase() + "%")
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
 }
