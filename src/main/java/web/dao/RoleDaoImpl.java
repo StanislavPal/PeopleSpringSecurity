@@ -17,12 +17,14 @@ public class RoleDaoImpl extends AbstractDao<Integer, Role> implements RoleDao {
 
     @Override
     @Transactional
+    @SuppressWarnings("unchecked")
     public List<Role> allRoles() {
         return entityManager.createQuery("select r from Role r").getResultList();
     }
 
     @Override
     @Transactional
+    @SuppressWarnings("unchecked")
     public Role findRoleByName(String roleName) {
         return (Role) entityManager
                 .createQuery("select r from Role r where lower(r.roleName) like :roleName")

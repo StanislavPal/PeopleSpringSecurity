@@ -34,7 +34,7 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "people_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
@@ -53,8 +53,8 @@ public class User implements UserDetails {
     public User(String firstName, String lastName, int age, String email, String login, String password, Set<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
         this.age = age;
+        this.email = email;
         this.login = login;
         this.password = password;
         this.roles = roles;

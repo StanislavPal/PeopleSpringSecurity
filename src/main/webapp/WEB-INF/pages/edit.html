@@ -6,34 +6,56 @@
 </head>
 <body>
 
-<a th:href="@{/people}">Show All Users</a>
+<a th:href="@{/admin/people}">Show All Users</a>
 <b/>
 <br/>
 <br/>
 <table>
-<form th:method="PATCH" th:action="@{/people/{id}(id=${user.getId()})}" th:object="${user}">
-    <tr>
-        <td><label for="name">Enter name: </label></td>
-        <td><input type="text" th:field="*{firstName}" id="name"/></td>
-    </tr>
-    <tr>
-        <td><label for="last_name">Enter last name: </label></td>
-        <td><input type="text" th:field="*{lastName}" id="last_name"/></td>
-    </tr>
-    <tr>
-        <td><label for="age">Enter age: </label></td>
-        <td><input type="text" th:field="*{age}" id="age"/></td>
-    </tr>
-    <tr>
-        <td><label for="email">Enter e-mail: </label></td>
-        <td><input type="text" th:field="*{email}" id="email"/></td>
-    </tr>
-    <tr>
-        <td></td>
+    <form th:method="PATCH" th:action="@{/admin/people/{id}(id=${user.getId()})}" th:object="${user}">
+        <tr>
+            <td><label for="name">Enter name: </label></td>
+            <td><input type="text" th:field="*{firstName}" id="name"/></td>
+        </tr>
+        <tr>
+            <td><label for="last_name">Enter last name: </label></td>
+            <td><input type="text" th:field="*{lastName}" id="last_name"/></td>
+        </tr>
+        <tr>
+            <td><label for="age">Enter age: </label></td>
+            <td><input type="text" th:field="*{age}" id="age"/></td>
+        </tr>
+        <tr>
+            <td><label for="email">Enter e-mail: </label></td>
+            <td><input type="text" th:field="*{email}" id="email"/></td>
+        </tr>
+        <tr>
+            <td><label for="login">Enter login: </label></td>
+            <td><input type="text" th:field="*{login}" id="login"/></td>
+        </tr>
+        <tr>
+            <td><label for="password">Enter password: </label></td>
+            <td><input type="text" th:field="*{password}" id="password"/></td>
+        </tr>
+
         <br/>
-        <td><input type="submit" value="Update!"/></td>
-    </tr>
-</form>
+        <br/>
+            <div>
+                <label>Roles:
+                    <input type="checkbox" name="roles"
+                           th:each="role : ${roles}"
+                           th:text="${role.roleName}"
+                           th:value="${role.id}"
+                           th:field="*{roles}"
+                    />
+                </label>
+            </div>
+
+        <tr>
+            <td></td>
+            <br/>
+            <td><input type="submit" value="Update!"/></td>
+        </tr>
+    </form>
 </table>
 </body>
 </html>

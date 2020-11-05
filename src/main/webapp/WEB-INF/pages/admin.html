@@ -1,6 +1,6 @@
+
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
@@ -8,6 +8,14 @@
 <body>
 <h1>Hi, Admin!</h1>
 
-<a href="/people">People</a>
+<br>
+Your Login:
+<span th:utext="${username}"></span>
+<br>
+Your Role (Roles):
+<span th:text="${roleSet}"></span>
+<br><br>
+
+<a href="/admin/people">People</a>
 </body>
 </html>

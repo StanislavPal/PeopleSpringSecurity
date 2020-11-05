@@ -24,11 +24,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userDAO.findByUsername(login);
+        User user = userDAO.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException("User " + login + "not found");
+            throw new UsernameNotFoundException("User " + username + "not found");
         }
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
@@ -37,6 +37,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
         }
 
-        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), grantedAuthorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
 }

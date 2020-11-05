@@ -25,6 +25,13 @@
 <body>
 <h1>People</h1>
 
+<br/>
+<form action="/admin/people/add">
+    <button type="submit" >Add new user
+    </button>
+</form>
+<br/>
+
 <table border="1">
     <tr>
         <th>Id</th>
@@ -32,6 +39,9 @@
         <th>Last Name</th>
         <th>Age</th>
         <th>E-mail</th>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Role</th>
         <th>Edit User</th>
     </tr>
 
@@ -39,16 +49,18 @@
               class="row" th:classappend="${state.odd} ? 'odd-row' : 'even-row'">
         <tr>
             <!--<td th:text="${state.count}">No</td>-->
-            <td><a th:href="@{/people/{id}(id=${user.getId()})}" th:text="${user.id}">Id</a></td>
+            <td><a th:href="@{/admin/people/{id}(id=${user.getId()})}" th:text="${user.id}">Id</a></td>
             <td th:text="${user.firstName}">Name</td>
             <td th:text="${user.lastName}">Last Name</td>
             <td th:text="${user.age}">Age</td>
             <td th:text="${user.email}">E-mail</td>
+            <td th:text="${user.login}">Login</td>
+            <td th:text="${user.password}">Password</td>
+            <td th:text="@{roleName}">Role</a></td>
             <td>
                 <form
-                      th:action="@{/people/{id}/edit(id=${user.getId()})}">
-                    <button type="submit" >Edit user
-                    </button>
+                      th:action="@{/admin/people/{id}/edit(id=${user.getId()})}">
+                    <button type="submit" >Edit user</button>
                 </form>
             </td>
         </tr>
@@ -59,10 +71,42 @@
 
 <br/>
 
-<form action="/people/add">
-<button type="submit" >Add new user
-</button>
-</form>
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Role</th>
+    </tr>
+
+    <th:block th:each="role, state: ${allRoles}"
+              class="row" th:classappend="${state.odd} ? 'odd-row' : 'even-row'">
+        <tr>
+            <!--<td th:text="${state.count}">No</td>-->
+            <td th:text="${role.id}">Id</td>
+            <td th:text="${role.roleName}">Role</td>
+        </tr>
+
+    </th:block>
+</table>
+
+<br/>
+<br/>
+
+<table border="1">
+    <tr>
+        <th>UserId</th>
+        <th>RoleId</th>
+    </tr>
+<th:block th:each="user: ${allUsers}">
+    <th:block th:each="role: ${allRolls}"
+              class="row" th:classappend="${state.odd} ? 'odd-row' : 'even-row'">
+        <tr>
+            <!--<td th:text="${state.count}">No</td>-->
+            <td th:text="${user.id}">UserId</td>
+            <td th:text="${role.id}">RoleId </td>
+        </tr>
+    </th:block>
+</th:block>
+</table>
 
 </body>
 </html>

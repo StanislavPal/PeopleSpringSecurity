@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Get Id</title>
-    <style>
-        table th, table td {
-            padding: 5px;
-            text-align-last: right;
-        }
-    </style>
+    <title>User</title>
 </head>
 <body>
+<h1>Hi, User!</h1>
 
-<a th:href="@{/admin/people}">Show All Users</a>
+<br>
+Your Login:
+<span th:utext="${username}"></span>
+<br>
+Your Role (Roles):
+<span th:text="${roleSet}"></span>
+
+<br><br>
 
 <br/>
 <br/>
@@ -26,7 +28,6 @@
         <th>E-mail</th>
         <th>Login</th>
         <th>Password</th>
-       <!-- <th>Role</th>-->
         <th>Edit</th>
     </tr>
 
@@ -41,7 +42,6 @@
             <td th:text="${user.getEmail()}">VALUE</td>
             <td th:text="${user.getLogin()}">VALUE</td>
             <td th:text="${user.getPassword()}">VALUE</td>
-            <!--<td th:text="${role.getRoleName()}">VALUE</td>-->
             <td>
                 <form
                         th:action="@{/admin/people/{id}/edit(id=${user.getId()})}">
@@ -54,19 +54,12 @@
     </th:block>
 
 </table>
-
 <br/>
-
-<div style="display: inline-flex">
-<!--<form th:action="@{admin/people/{id}/edit(id=${user.getId()})}">
-    <button type="submit">Edit User</button>
-</form>-->
-
-    <br/>
-
-<form th:method="DELETE"
-      th:action="@{/admin/people/{id}(id=${user.getId()})}">
-    <input type="submit" value="Delete User"/>
+<br/>
+<div>
+<form sec:authorize="isAuthenticated()" th:method="POST" th:action="@{/logout}">
+        <a th:href="@{/logout}"></a>
+    <button type="submit" >Logout</button>
 </form>
 </div>
 

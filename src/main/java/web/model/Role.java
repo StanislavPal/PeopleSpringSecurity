@@ -16,10 +16,7 @@ public class Role implements GrantedAuthority {
     private String roleName;
 
     @ManyToMany(mappedBy = "roles")
-    /*@JoinTable(name="user_roles",
-            joinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")},
-            inverseJoinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")}
-    )*/
+
     private Set<User> users;
 
     public Role() {
@@ -56,8 +53,8 @@ public class Role implements GrantedAuthority {
         return users;
     }
 
-    public void setUsers(Set<User> userRoles) {
-        this.users = userRoles;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     public String getRoleName() {

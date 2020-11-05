@@ -67,12 +67,11 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDAO {
     }
 
     @Override
-    public User findByUsername(String login) {
+    public User findByUsername(String username) {
         try {
-            return (User) entityManager
-                    .createQuery("select u from User u where lower(u.login) like :username")
-                    //.createQuery("select u from User u where lower(u.login)=:login")
-                    .setParameter("username", "%" + login.toLowerCase() + "%")
+            return (User) getEntityManager()
+                    .createQuery("select u from User u where u.login like :username")
+                    .setParameter("username", "%" + username.toLowerCase() + "%")
                     .getSingleResult();
         } catch (NoResultException e) {
             return null;

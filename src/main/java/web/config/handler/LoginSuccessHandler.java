@@ -19,6 +19,8 @@ import java.util.Map;
 
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
+    //private final GrantedAuthority adminAuthority = new SimpleGrantedAuthority("ROLE_ADMIN");
+
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
@@ -35,22 +37,23 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
                         HttpServletResponse response,
                         Authentication authentication) throws IOException {
 
-        String targetUrl = determineUrl(authentication);
+        String targetUrl = determineTargetUrl(authentication);
 
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
-    private String determineUrl (final Authentication authentication) {
+    private String determineTargetUrl (final Authentication authentication) {
 
-        Map<String, String> roleUrlMap = new HashMap<>();
-        roleUrlMap.put("ROLE_USER", "/id");
-        roleUrlMap.put("ROLE_ADMIN", "/admin");
+
+        Map<String, String> roleTargetUrlMap = new HashMap<>();
+        roleTargetUrlMap.put("ROLE_USER", "/user");
+        roleTargetUrlMap.put("ROLE_ADMIN", "/admin");
 
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {
             String authorityName = grantedAuthority.getAuthority();
-            if(roleUrlMap.containsKey(authorityName)) {
-                return roleUrlMap.get(authorityName);
+            if(roleTargetUrlMap.containsKey(authorityName)) {
+                return roleTargetUrlMap.get(authorityName);
             }
         }
 
