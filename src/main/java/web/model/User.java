@@ -7,13 +7,14 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "people")
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
     @Column(name = "name")
@@ -34,7 +35,7 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "people_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
@@ -42,7 +43,7 @@ public class User implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")}*/
     )
 
-    //private Role role;
+
     private Set<Role> roles;
 
 
@@ -63,6 +64,13 @@ public class User implements UserDetails {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public String getRoleName() {
+        return roles
+                .stream()
+                .map(Role::getRoleName)
+                .collect(Collectors.joining(", "));
     }
 
     public void setRoles(Set<Role> roles) {

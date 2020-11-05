@@ -56,7 +56,7 @@
             <td th:text="${user.email}">E-mail</td>
             <td th:text="${user.login}">Login</td>
             <td th:text="${user.password}">Password</td>
-            <td th:text="@{roleName}">Role</a></td>
+            <td th:text="${user.roleName}">Role</a></td>
             <td>
                 <form
                       th:action="@{/admin/people/{id}/edit(id=${user.getId()})}">

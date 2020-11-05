@@ -11,7 +11,7 @@
 <br/>
 <br/>
 <table>
-    <form th:method="PATCH" th:action="@{/admin/people/{id}(id=${user.getId()})}" th:object="${user}">
+    <form th:method="POST" th:action="@{/admin/people/}" th:object="${user}"> <!--{id}(id=${user.getId()})-->
         <tr>
             <td><label for="name">Enter name: </label></td>
             <td><input type="text" th:field="*{firstName}" id="name"/></td>
@@ -39,7 +39,7 @@
 
         <br/>
         <br/>
-            <div>
+            <!--<div>
                 <label>Roles:
                     <input type="checkbox" name="roles"
                            th:each="role : ${roles}"
@@ -48,7 +48,7 @@
                            th:field="*{roles}"
                     />
                 </label>
-            </div>
+            </div>-->
 
         <tr>
             <td></td>

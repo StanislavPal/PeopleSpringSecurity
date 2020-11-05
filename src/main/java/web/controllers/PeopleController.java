@@ -72,7 +72,7 @@ public class PeopleController {
         return "add";
     }
 
-    @PostMapping("/admin/people")
+    @PostMapping("/admin/people/add")
     public String create (@ModelAttribute("user") User user,
                           @RequestParam("firstName") String firstName,
                           @RequestParam("lastName") String lastName,
@@ -86,7 +86,7 @@ public class PeopleController {
         for (String roleId : roleIds) {
             roleSet.add(roleDao.getRole(Integer.parseInt(roleId)));
         }
-        userService.addUser(new User(firstName, lastName, age, email, login, password, roleSet));
+        userService.addUser(user);
         return "redirect:/admin/people";
     }
 
@@ -105,8 +105,14 @@ public class PeopleController {
         return "edit";
     }
 
-    @PatchMapping("/admin/people/{id}")
-    public String update (@ModelAttribute("user") User user, ModelMap modelMap) {
+    @PostMapping("/admin/people"/*{id}*/)
+    public String update (@ModelAttribute("user") User user, ModelMap modelMap,
+                          @RequestParam("roles") String[] roles) {
+        Set<Role> roleSet = new HashSet<>();
+        for (String roleId : roles) {
+            roleSet.add(roleDao.getRole(Integer.parseInt(roleId)));
+        }
+        user.setRoles(roleSet);
         modelMap.addAttribute("user", userService.updateUser(user));
         modelMap.addAttribute("role", roleDao.allRoles());
         return "redirect:/admin/people";
