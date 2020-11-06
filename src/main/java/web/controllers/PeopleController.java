@@ -115,15 +115,17 @@ public class PeopleController {
     }
 
     @PostMapping("/admin/people/{id}")
-    public String update (@ModelAttribute("user") User user, ModelMap modelMap,
+    public String update (@ModelAttribute("user") User user,
+//                          ModelMap modelMap,
                           @RequestParam("allRoles") String[] roles) {
         Set<Role> roleSet = new HashSet<>();
-        for (String roleId : roles) {
-            roleSet.add(roleDao.getRole(Integer.parseInt(roleId)));
+        for (String roleName : roles) {
+            roleSet.add(roleDao.findRoleByName(roleName));
         }
         user.setRoles(roleSet);
-        modelMap.addAttribute("user", userService.updateUser(user));
-        modelMap.addAttribute("allRoles", roleDao.allRoles());
+        userService.updateUser(user);
+//        modelMap.addAttribute("user", userService.updateUser(user));
+//        modelMap.addAttribute("allRoles", roleDao.allRoles());
         return "redirect:/admin/people";
     }
 

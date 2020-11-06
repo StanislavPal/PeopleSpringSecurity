@@ -11,7 +11,7 @@
 <br/>
 <br/>
 <table>
-    <form th:method="POST" th:action="@{/admin/people}" th:object="${user}"> <!--{id}(id=${user.getId()})-->
+    <form th:method="POST" th:action="@{/admin/people/{id}(id=${user.getId()})}" th:object="${user}"> <!--{id}(id=${user.getId()})-->
         <tr>
             <td><label for="name">Enter name: </label></td>
             <td><input type="text" th:field="*{firstName}" id="name"/></td>
@@ -39,16 +39,14 @@
 
         <br/>
         <br/>
-            <div>
                 <label>Roles:
                     <input type="checkbox" name="allRoles"
                            th:each="role : ${allRoles}"
                            th:text="${role.roleName}"
-                           th:value="${role.id}"
-                           th:field="*{roles}"
+                           th:value="${role.roleName}"
                     />
+<!--                           th:field="*{roles}"-->
                 </label>
-            </div>
 
         <tr>
             <td></td>
