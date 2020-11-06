@@ -26,7 +26,7 @@
         <th>E-mail</th>
         <th>Login</th>
         <th>Password</th>
-       <!-- <th>Role</th>-->
+        <th>Role</th>
         <th>Edit</th>
     </tr>
 
@@ -41,7 +41,7 @@
             <td th:text="${user.getEmail()}">VALUE</td>
             <td th:text="${user.getLogin()}">VALUE</td>
             <td th:text="${user.getPassword()}">VALUE</td>
-            <!--<td th:text="${role.getRoleName()}">VALUE</td>-->
+            <td th:text="${user.getRoleName()}">VALUE</td>
             <td>
                 <form
                         th:action="@{/admin/people/{id}/edit(id=${user.getId()})}">

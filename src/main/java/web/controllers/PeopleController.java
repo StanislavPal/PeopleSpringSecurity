@@ -40,7 +40,6 @@ public class PeopleController {
     @GetMapping ("/admin")
     public String adminPage (Principal principal, ModelMap modelMap) {
 
-        /*List<User> allUsers =userService.allUsers();*/
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Set<String> roles = authentication.getAuthorities().stream()
@@ -58,34 +57,44 @@ public class PeopleController {
         return "admin";
     }
 
-    @GetMapping (value = "/admin/people")
+    @GetMapping (value = "/admin/people"/*, method = {RequestMethod.GET, RequestMethod.POST}*/)
     public String allUsers (ModelMap modelMap) {
         modelMap.addAttribute("allUsers", userService.allUsers());
         modelMap.addAttribute("allRoles", roleDao.allRoles());
         return "people";
     }
 
-    @GetMapping ("admin/people/add")
-    public String newUser (ModelMap modelMap) {
+    /*@RequestMapping(value = "/admin/people", method = RequestMethod.POST)
+    public String people(ModelMap modelMap) {
         modelMap.addAttribute("user", new User());
-        modelMap.addAttribute("roles", roleDao.allRoles());  // отображение всех ролей в чек-боксе
+        modelMap.addAttribute("allUsers", userService.allUsers());
+        return "people";
+    }*/
+
+
+    @GetMapping ("admin/people/add")
+    public String newUser (@ModelAttribute("user") User user, ModelMap modelMap) {
+        modelMap.addAttribute("user", new User());
+        modelMap.addAttribute("allRoles", roleDao.allRoles());  // отображение всех ролей в чек-боксе
         return "add";
     }
 
     @PostMapping("/admin/people/add")
     public String create (@ModelAttribute("user") User user,
-                          @RequestParam("firstName") String firstName,
+                          /*@RequestParam("firstName") String firstName,
                           @RequestParam("lastName") String lastName,
                           @RequestParam("age") int age,
                           @RequestParam("email") String email,
                           @RequestParam("login") String login,
-                          @RequestParam("password") String password,
-                          @RequestParam("roles") String [] roleIds) {
+                          @RequestParam("password") String password,*/
+                          @RequestParam("allRoles") String [] roleIds) {
+
 
         Set<Role> roleSet = new HashSet<>();
         for (String roleId : roleIds) {
             roleSet.add(roleDao.getRole(Integer.parseInt(roleId)));
         }
+        user.setRoles(roleSet);
         userService.addUser(user);
         return "redirect:/admin/people";
     }
@@ -93,28 +102,28 @@ public class PeopleController {
     @GetMapping("/admin/people/{id}")
     public String getById(@PathVariable("id") int id, ModelMap modelMap) {
         modelMap.addAttribute("user", userService.getById(id));
-        modelMap.addAttribute("role", roleDao.getRole(id));
+        modelMap.addAttribute("allRoles", roleDao.allRoles());
 
         return "id";
     }
 
     @GetMapping("/admin/people/{id}/edit")
     public String edit (@PathVariable("id") int id, ModelMap modelMap) {
-        modelMap.addAttribute("roles", roleDao.allRoles());
+        modelMap.addAttribute("allRoles", roleDao.allRoles());
         modelMap.addAttribute("user", userService.getById(id));
         return "edit";
     }
 
-    @PostMapping("/admin/people"/*{id}*/)
+    @PostMapping("/admin/people/{id}")
     public String update (@ModelAttribute("user") User user, ModelMap modelMap,
-                          @RequestParam("roles") String[] roles) {
+                          @RequestParam("allRoles") String[] roles) {
         Set<Role> roleSet = new HashSet<>();
         for (String roleId : roles) {
             roleSet.add(roleDao.getRole(Integer.parseInt(roleId)));
         }
         user.setRoles(roleSet);
         modelMap.addAttribute("user", userService.updateUser(user));
-        modelMap.addAttribute("role", roleDao.allRoles());
+        modelMap.addAttribute("allRoles", roleDao.allRoles());
         return "redirect:/admin/people";
     }
 

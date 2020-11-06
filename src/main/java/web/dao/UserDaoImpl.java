@@ -3,11 +3,10 @@ package web.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
-import web.model.Role;
 import web.model.User;
 
 import javax.persistence.NoResultException;
-import java.util.*;
+import java.util.List;
 
 @Repository
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDAO {
@@ -32,10 +31,10 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDAO {
     @Override
     public void addUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        Set<Role> roles = new HashSet<>();
+        /*Set<Role> roles = new HashSet<>();
         roles.add(new Role(1, "ROLE_USER"));
         //roles.add(roleDao.getRole(1));
-        user.setRoles(roles);
+        user.setRoles(roles);*/
         entityManager.persist(user);
     }
 

@@ -56,7 +56,7 @@
             <td th:text="${user.email}">E-mail</td>
             <td th:text="${user.login}">Login</td>
             <td th:text="${user.password}">Password</td>
-            <td th:text="${user.roleName}">Role</a></td>
+            <td th:text="${user.roleName}">Role</td>
             <td>
                 <form
                       th:action="@{/admin/people/{id}/edit(id=${user.getId()})}">
@@ -64,34 +64,26 @@
                 </form>
             </td>
         </tr>
-
     </th:block>
-
 </table>
-
 <br/>
-
 <table border="1">
     <tr>
         <th>Id</th>
         <th>Role</th>
     </tr>
-
-    <th:block th:each="role, state: ${allRoles}"
-              class="row" th:classappend="${state.odd} ? 'odd-row' : 'even-row'">
+    <th:block th:each="role : ${allRoles}">
         <tr>
             <!--<td th:text="${state.count}">No</td>-->
-            <td th:text="${role.id}">Id</td>
-            <td th:text="${role.roleName}">Role</td>
+            <td th:utext="${role.id}">Id</td>
+            <td th:utext="${role.roleName}">Role</td>
         </tr>
-
     </th:block>
 </table>
-
 <br/>
 <br/>
 
-<table border="1">
+<!--<table border="1">
     <tr>
         <th>UserId</th>
         <th>RoleId</th>
@@ -100,13 +92,13 @@
     <th:block th:each="role: ${allRolls}"
               class="row" th:classappend="${state.odd} ? 'odd-row' : 'even-row'">
         <tr>
-            <!--<td th:text="${state.count}">No</td>-->
+            &lt;!&ndash;<td th:text="${state.count}">No</td>&ndash;&gt;
             <td th:text="${user.id}">UserId</td>
             <td th:text="${role.id}">RoleId </td>
         </tr>
     </th:block>
 </th:block>
-</table>
+</table>-->
 
 </body>
 </html>
