@@ -79,7 +79,7 @@ public class PeopleController {
         return "add";
     }
 
-    @PostMapping("/admin/people/add")
+    @PostMapping("/admin/people")
     public String create (@ModelAttribute("user") User user,
                           /*@RequestParam("firstName") String firstName,
                           @RequestParam("lastName") String lastName,
@@ -87,12 +87,12 @@ public class PeopleController {
                           @RequestParam("email") String email,
                           @RequestParam("login") String login,
                           @RequestParam("password") String password,*/
-                          @RequestParam("allRoles") String [] roleIds) {
+                          @RequestParam("allRoles") String [] roles) {
 
 
         Set<Role> roleSet = new HashSet<>();
-        for (String roleId : roleIds) {
-            roleSet.add(roleDao.getRole(Integer.parseInt(roleId)));
+        for (String roleName : roles) {
+            roleSet.add(roleDao.findRoleByName(roleName));
         }
         user.setRoles(roleSet);
         userService.addUser(user);
